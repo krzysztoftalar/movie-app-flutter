@@ -7,16 +7,16 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/movie.dart';
 import '../params/get_movie_params.dart';
 
-class GetPlayingNow extends UseCase<List<Movie>, GetMovieParams> {
+class GetPopular extends UseCase<List<Movie>, GetMovieParams> {
   final MovieRepository repository;
 
-  GetPlayingNow({
+  GetPopular({
     @required this.repository,
   });
 
   @override
   Future<Either<ServerException, List<Movie>>> call(GetMovieParams params) async {
-    return await repository.getPlayingNow(params.page);
+    return await repository.getPopular(params.page);
   }
 }
 

@@ -7,7 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../../../core/error/failures.dart';
 import '../../../../../../style/hue.dart';
 import '../../../blocs/genre_bloc/genre_bloc.dart';
-import '../../../../../../style/size_constants.dart';
+import '../../../../../../style/sizes.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../../data/api/movie_api_constants.dart';
 
@@ -38,7 +38,7 @@ class MovieCard extends StatelessWidget {
     return Text(
       movie.title,
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: Sizes.dimen_20,
         fontWeight: FontWeight.bold,
       ),
@@ -77,7 +77,7 @@ class MovieCard extends StatelessWidget {
                 .toList(),
           );
         }
-        return const Text(UNEXPECTED_FAILURE_MESSAGE);
+        return Container();
       },
     );
   }

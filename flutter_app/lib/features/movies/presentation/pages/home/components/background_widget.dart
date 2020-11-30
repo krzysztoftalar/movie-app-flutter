@@ -7,11 +7,11 @@ import '../../../../data/api/movie_api_constants.dart';
 import '../../../blocs/movie_bloc/movie_bloc.dart';
 
 class BackgroundWidget extends StatelessWidget {
-  final PageController controller;
+  final PageController pageController;
 
   const BackgroundWidget({
     Key key,
-    @required this.controller,
+    @required this.pageController,
   }) : super(key: key);
 
   @override
@@ -19,41 +19,44 @@ class BackgroundWidget extends StatelessWidget {
     return BlocBuilder<MovieBloc, MovieState>(
       builder: (context, state) {
         if (state is MovieLoaded) {
-          return PageView.builder(
-            reverse: true,
-            physics: NeverScrollableScrollPhysics(),
-            controller: controller,
-            itemCount: state.movies.length,
-            itemBuilder: (context, index) {
-              return Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          '${ApiConstants.MOVIE_BASE_IMAGE_URL}${state.movies[index].posterPath}',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Hue.white.withOpacity(0.0001),
-                          Hue.white,
-                        ],
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            child: PageView.builder(
+              reverse: true,
+              physics: NeverScrollableScrollPhysics(),
+              controller: pageController,
+              itemCount: state.movies.length,
+              itemBuilder: (context, index) {
+                return Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            '${ApiConstants.MOVIE_BASE_IMAGE_URL}${state.movies[index].posterPath}',
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Hue.white.withOpacity(0.0001),
+                            Hue.white,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           );
         }
-        return null;
+        return Container();
       },
     );
   }

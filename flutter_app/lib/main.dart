@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/style/hue.dart';
 import './di/injection_container.dart' as di;
 
 import 'features/movies/presentation/pages/home/home_page.dart';
@@ -13,7 +14,11 @@ class MovieApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        accentColor: Hue.orange,
+      ),
+      home: HomePage(),
     );
   }
 }

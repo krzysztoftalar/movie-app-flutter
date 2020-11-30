@@ -9,7 +9,9 @@ import '../models/movie_model.dart';
 
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getPlayingNow(int page);
-
+  Future<List<MovieModel>> getPopular(int page);
+  Future<List<MovieModel>> getUpcoming(int page);
+  Future<List<MovieModel>> getMoviesByGenre(int id, int page);
   Future<List<GenreModel>> getGenres();
 }
 
@@ -29,6 +31,52 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
         }
       ];
       final response = await client.get('/movie/now_playing', params);
+      return MovieResultModel.fromJson(response).movies;
+    } on ServerException catch (error) {
+      throw ServerException(error.message);
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getPopular(int page) async {
+    try {
+      var params = [
+        {
+          "page": page,
+        }
+      ];
+      final response = await client.get('/movie/popular', params);
+      return MovieResultModel.fromJson(response).movies;
+    } on ServerException catch (error) {
+      throw ServerException(error.message);
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getUpcoming(int page) async {
+    try {
+      var params = [
+        {
+          "page": page,
+        }
+      ];
+      final response = await client.get('/movie/upcoming', params);
+      return MovieResultModel.fromJson(response).movies;
+    } on ServerException catch (error) {
+      throw ServerException(error.message);
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getMoviesByGenre(int id, int page) async {
+    try {
+      var params = [
+        {
+          "page": page,
+          "with_genres": id,
+        }
+      ];
+      final response = await client.get('/discover/movie', params);
       return MovieResultModel.fromJson(response).movies;
     } on ServerException catch (error) {
       throw ServerException(error.message);

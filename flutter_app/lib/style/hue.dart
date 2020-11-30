@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class Hue{
   Hue._();
 
-  static Color greyDark = Colors.grey[600];
-  static Color orange = Colors.orange;
-  static Color white = Colors.white;
+  static const Color main = const Color(0xFF151C26);
+  static const Color greyDark = const Color(0xFF757575);
+  static const Color orange = const Color(0xFFFF9800);
+  static const Color white = const Color(0xFFFFFFFF);
 }

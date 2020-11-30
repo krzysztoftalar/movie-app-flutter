@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import '../features/movies/domain/usecases/get_upcoming.dart';
+import '../features/movies/domain/usecases/get_popular.dart';
+import '../features/movies/domain/usecases/get_movies_by_genre.dart';
 import '../features/movies/presentation/blocs/genre_bloc/genre_bloc.dart';
 import '../features/movies/domain/usecases/get_genres.dart';
 import '../features/movies/data/api/movie_api_client.dart';
@@ -15,11 +18,19 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //! Features - Movies
   // Bloc
-  sl.registerFactory(() => MovieBloc(getPlayingNow: sl()));
+  sl.registerFactory(() => MovieBloc(
+        getPlayingNow: sl(),
+        getMoviesByGenre: sl(),
+        getPopular: sl(),
+        getUpcoming: sl(),
+      ));
   sl.registerFactory(() => GenreBloc(getGenres: sl()));
 
   // Use cases
   sl.registerLazySingleton(() => GetPlayingNow(repository: sl()));
+  sl.registerLazySingleton(() => GetPopular(repository: sl()));
+  sl.registerLazySingleton(() => GetUpcoming(repository: sl()));
+  sl.registerLazySingleton(() => GetMoviesByGenre(repository: sl()));
   sl.registerLazySingleton(() => GetGenres(repository: sl()));
 
   // Repositories
