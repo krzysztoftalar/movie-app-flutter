@@ -23,7 +23,7 @@ _The project is under construction..._
 <br/>
 
 <p align="center">
-  <img src="./flutter_app/assets/images/movie-1.png" width="70%" alt="Project">
+  <img src="./flutter_app/assets/images/movie-1.png" width="40%" alt="Project">
 </p>
 
 ## Features
