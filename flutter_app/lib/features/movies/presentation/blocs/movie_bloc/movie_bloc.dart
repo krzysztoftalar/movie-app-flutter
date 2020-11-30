@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../domain/params/get_movies_by_genre_params.dart';
-import '../../../domain/params/get_movie_params.dart';
+import '../../../domain/params/get_movies_params.dart';
 import '../../../domain/usecases/get_popular.dart';
 import '../../../domain/usecases/get_upcoming.dart';
 import '../../../../../core/error/exceptions.dart';
