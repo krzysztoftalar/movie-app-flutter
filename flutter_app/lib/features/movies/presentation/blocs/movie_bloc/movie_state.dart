@@ -12,23 +12,14 @@ class MovieInitial extends MovieState {}
 class MovieLoading extends MovieState {}
 
 class MovieLoaded extends MovieState {
-  final List<Movie> movies;
-  final int genreId;
-  final int page;
-  final int tabIndex;
-  final MoviesFilter predicate;
+  final MovieDetail movie;
 
   MovieLoaded({
-    @required this.movies,
-    @required this.genreId,
-    @required this.page,
-    @required this.tabIndex,
-    @required this.predicate,
-  })  : assert(page >= 1, 'page cannot be less than 1'),
-        assert(tabIndex >= 0, 'tabIndex cannot be less than 0');
+    @required this.movie,
+  });
 
   @override
-  List<Object> get props => [movies, genreId, page, tabIndex, predicate];
+  List<Object> get props => [movie];
 }
 
 class MovieError extends MovieState {

@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../blocs/movie_bloc/movie_bloc.dart';
+import '../../../blocs/movies_bloc/movies_bloc.dart';
 import '../../../../../../core/error/failures.dart';
 import './movie_card.dart';
 
@@ -18,9 +18,9 @@ class CarouselMovies extends StatefulWidget {
 }
 
 class _CarouselMoviesState extends State<CarouselMovies> {
-  MovieBloc get movieBloc => BlocProvider.of<MovieBloc>(context);
+  MoviesBloc get movieBloc => BlocProvider.of<MoviesBloc>(context);
 
-  Widget _buildCarouselMoviesWidget(BuildContext context, MovieLoaded state) {
+  Widget _buildCarouselMoviesWidget(BuildContext context, MoviesLoaded state) {
     return CarouselSlider(
       items: state.movies
           .map((item) => MovieCard(key: ValueKey(item.id), movie: item))
@@ -50,15 +50,15 @@ class _CarouselMoviesState extends State<CarouselMovies> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieBloc, MovieState>(
+    return BlocBuilder<MoviesBloc, MoviesState>(
       builder: (_, state) {
-        if (state is MovieInitial) {
+        if (state is MoviesInitial) {
           return Center(child: Text('Initial'));
-        } else if (state is MovieError) {
+        } else if (state is MoviesError) {
           return Center(child: Text(state.message));
-        } else if (state is MovieLoading) {
+        } else if (state is MoviesLoading) {
           return Center(child: CircularProgressIndicator());
-        } else if (state is MovieLoaded) {
+        } else if (state is MoviesLoaded) {
           return _buildCarouselMoviesWidget(context, state);
         }
         return Center(child: const Text(UNEXPECTED_FAILURE_MESSAGE));

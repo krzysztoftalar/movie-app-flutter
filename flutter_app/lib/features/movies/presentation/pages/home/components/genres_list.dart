@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../blocs/movie_bloc/movie_bloc.dart';
+import '../../../blocs/movies_bloc/movies_bloc.dart';
 import '../../../../../../style/hue.dart';
 import '../../../../../../style/sizes.dart';
 import '../../../blocs/genre_bloc/genre_bloc.dart';
@@ -24,7 +24,7 @@ class GenresList extends StatefulWidget {
 
 class _GenresListState extends State<GenresList>
     with SingleTickerProviderStateMixin {
-  MovieBloc get movieBloc => BlocProvider.of<MovieBloc>(context);
+  MoviesBloc get movieBloc => BlocProvider.of<MoviesBloc>(context);
   TabController _tabController;
   int _selectedIndex = 1;
 
@@ -72,7 +72,7 @@ class _GenresListState extends State<GenresList>
       indicatorWeight: 3.0,
       indicatorSize: TabBarIndicatorSize.tab,
       unselectedLabelColor: Hue.greyDark,
-      labelColor: Hue.main,
+      labelColor: Hue.white,
       tabs: state.genres
           .map(
             (genre) => Container(
@@ -84,7 +84,7 @@ class _GenresListState extends State<GenresList>
                 genre.name.toUpperCase(),
                 style: TextStyle(
                   fontSize: Sizes.dimen_16,
-                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -96,18 +96,18 @@ class _GenresListState extends State<GenresList>
   Widget _buildBottomNavigationBar() {
     return BottomNavigationBar(
       onTap: (index) => _onBottomNavigationTap(index),
-      backgroundColor: Hue.white,
+      backgroundColor: Hue.main,
       selectedItemColor: Hue.orange,
       unselectedItemColor: Hue.greyDark,
       type: BottomNavigationBarType.fixed,
       currentIndex: _selectedIndex,
       selectedLabelStyle: TextStyle(
         fontSize: Sizes.dimen_16,
-        fontWeight: FontWeight.bold,
+        // fontWeight: FontWeight.bold,
       ),
       unselectedLabelStyle: TextStyle(
         fontSize: Sizes.dimen_16,
-        fontWeight: FontWeight.bold,
+        // fontWeight: FontWeight.bold,
       ),
       items: _tabBars
           .map((item) => BottomNavigationBarItem(
@@ -118,35 +118,39 @@ class _GenresListState extends State<GenresList>
     );
   }
 
+  Widget _buildGenreListWidget(GenreLoaded state) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.85,
+      child: DefaultTabController(
+        length: state.genres.length,
+        child: Scaffold(
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildTabBar(state),
+              _buildBottomNavigationBar(),
+            ],
+          ),
+          backgroundColor: Colors.transparent,
+          body: TabBarView(
+            controller: _tabController,
+            physics: NeverScrollableScrollPhysics(),
+            children: state.genres
+                .map((x) =>
+                    CarouselMovies(pageController: widget.pageController))
+                .toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GenreBloc, GenreState>(
       builder: (context, state) {
         if (state is GenreLoaded) {
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.85,
-            child: DefaultTabController(
-              length: state.genres.length,
-              child: Scaffold(
-                bottomNavigationBar: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildTabBar(state),
-                    _buildBottomNavigationBar(),
-                  ],
-                ),
-                backgroundColor: Colors.transparent,
-                body: TabBarView(
-                  controller: _tabController,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: state.genres
-                      .map((x) =>
-                          CarouselMovies(pageController: widget.pageController))
-                      .toList(),
-                ),
-              ),
-            ),
-          );
+          return _buildGenreListWidget(state);
         }
         return Container();
       },

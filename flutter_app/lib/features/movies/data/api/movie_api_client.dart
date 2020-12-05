@@ -29,7 +29,6 @@ class MovieApiClient {
         '${ApiConstants.MOVIE_API_URL}$path',
         queryParameters: params,
       );
-
       if (response.statusCode == 200) {
         return response.data;
       }

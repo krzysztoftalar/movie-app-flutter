@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/style/hue.dart';
 import './di/injection_container.dart' as di;
 
-import 'features/movies/presentation/pages/home/home_page.dart';
+import './style/hue.dart';
+import './features/movies/presentation/pages/detail/movies_detail_page.dart';
+import './features/movies/presentation/pages/home/movies_home_page.dart';
+import './core/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +19,16 @@ class MovieApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         accentColor: Hue.orange,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            color: Hue.white,
+          ),
+        ),
       ),
-      home: HomePage(),
+      home: MoviesHomePage(),
+      routes: {
+        Routes.MOVIES_DETAIL_PAGE: (_) => MoviesDetailPage(),
+      },
     );
   }
 }

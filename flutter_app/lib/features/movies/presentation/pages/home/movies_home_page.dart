@@ -1,44 +1,45 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/style/hue.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/movies_bloc/movies_bloc.dart';
 import '../../../../../core/error/failures.dart';
 import '../../blocs/genre_bloc/genre_bloc.dart';
 import './components/background_widget.dart';
-import '../../blocs/movie_bloc/movie_bloc.dart';
 import '../../../../../di/injection_container.dart';
 import './components/genres_list.dart';
 import './components/home_app_bar.dart';
 
-class HomePage extends StatefulWidget {
+class MoviesHomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _MoviesHomePage createState() => _MoviesHomePage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MoviesHomePage extends State<MoviesHomePage> {
   final pageController = PageController();
-  MovieBloc movieBloc;
-  GenreBloc genreBloc;
+  MoviesBloc _moviesBloc;
+  GenreBloc _genreBloc;
 
   @override
   void initState() {
     super.initState();
-    movieBloc = sl<MovieBloc>();
-    genreBloc = sl<GenreBloc>();
+    _moviesBloc = sl<MoviesBloc>();
+    _genreBloc = sl<GenreBloc>();
 
-    movieBloc.add(GetMoviesEvent(
+    _moviesBloc.add(GetMoviesEvent(
       page: 1,
       tabIndex: 1,
       predicate: MoviesFilter.All,
     ));
-    genreBloc.add(GetGenresEvent());
+    _genreBloc.add(GetGenresEvent());
   }
 
   @override
   void dispose() {
     super.dispose();
-    movieBloc.close();
-    genreBloc.close();
+    _moviesBloc.close();
+    _genreBloc.close();
     pageController.dispose();
   }
 
@@ -47,13 +48,14 @@ class _HomePageState extends State<HomePage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => movieBloc,
+          create: (_) => _moviesBloc,
         ),
         BlocProvider(
-          create: (_) => genreBloc,
+          create: (_) => _genreBloc,
         ),
       ],
       child: Scaffold(
+        backgroundColor: Hue.main,
         body: SingleChildScrollView(
           child: Stack(
             children: [
