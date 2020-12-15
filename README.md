@@ -25,7 +25,7 @@ To manage state, I used the Bloc library to separate the presentation from the b
 <br/>
 
 <p align="center">
-  <img src="./flutter_app/assets/images/movie.png" width="40%" alt="Project">
+  <img src="./flutter_app/assets/images/movie-1.png" width="40%" alt="Project">
 </p>
 
 <p align="center">
