@@ -20,7 +20,7 @@ class CarouselMovies extends StatefulWidget {
 class _CarouselMoviesState extends State<CarouselMovies> {
   MoviesBloc get movieBloc => BlocProvider.of<MoviesBloc>(context);
 
-  Widget _buildCarouselMoviesWidget(BuildContext context, MoviesLoaded state) {
+  Widget _buildCarouselMoviesWidget(BuildContext context, MoviesLoaded state) {  
     return CarouselSlider(
       items: state.movies
           .map((item) => MovieCard(key: ValueKey(item.id), movie: item))

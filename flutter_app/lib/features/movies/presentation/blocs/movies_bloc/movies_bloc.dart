@@ -14,6 +14,7 @@ import '../../../../../core/error/exceptions.dart';
 import '../../../domain/entities/movie.dart';
 
 part 'movies_event.dart';
+
 part 'movies_state.dart';
 
 typedef Future<Either<ServerException, List<Movie>>> _GetMovies();
@@ -33,8 +34,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
 
   @override
   Stream<MoviesState> mapEventToState(
-      MoviesEvent event,
-      ) async* {
+    MoviesEvent event,
+  ) async* {
     if (event is GetMoviesEvent) {
       switch (event.predicate) {
         case MoviesFilter.All:
@@ -44,8 +45,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
                   event, () => getPopular(GetMoviesParams(page: event.page)));
               break;
             case 1:
-              yield* _moviesToState(
-                  event, () => getPlayingNow(GetMoviesParams(page: event.page)));
+              yield* _moviesToState(event,
+                  () => getPlayingNow(GetMoviesParams(page: event.page)));
               break;
             case 2:
               yield* _moviesToState(
@@ -56,7 +57,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         case MoviesFilter.ByGenre:
           yield* _moviesToState(
             event,
-                () => getMoviesByGenre(GetMoviesByGenreParams(
+            () => getMoviesByGenre(GetMoviesByGenreParams(
               id: event.genreId,
               page: event.page,
             )),
@@ -73,11 +74,11 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     }
     final moviesEither = await _getMovies();
     yield moviesEither.fold(
-          (failure) => MoviesError(message: failure.message),
-          (movies) {
+      (failure) => MoviesError(message: failure.message),
+      (movies) {
         if (event.page > 1) {
           final List<Movie> movieState =
-          List.from((state as MoviesLoaded).movies)..addAll(movies);
+              List.from((state as MoviesLoaded).movies)..addAll(movies);
           return MoviesLoaded(
             movies: movieState,
             page: event.page,
